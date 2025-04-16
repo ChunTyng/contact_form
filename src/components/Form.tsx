@@ -97,9 +97,13 @@ const Form = ({
             tabIndex={1}
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
+            aria-describedby="first-name-error"
+            aria-required="true"
           />
           {submitted && errors.firstName && (
-            <p className="text-(--color-Red)">{errors.firstName}</p>
+            <p className="text-(--color-Red)" id="first-name-error">
+              {errors.firstName}
+            </p>
           )}
         </div>
 
@@ -121,9 +125,13 @@ const Form = ({
             tabIndex={1}
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            aria-describedby="last-name-error"
+            aria-required="true"
           />
           {submitted && errors.lastName && (
-            <p className="text-(--color-Red)">{errors.lastName}</p>
+            <p className="text-(--color-Red)" id="last-name-error">
+              {errors.lastName}
+            </p>
           )}
         </div>
       </div>
@@ -146,14 +154,22 @@ const Form = ({
           tabIndex={1}
           value={emailAddress}
           onChange={(e) => setEmailAddress(e.target.value)}
+          aria-describedby="email-error"
+          aria-required="true"
         />
       </div>
       {submitted && errors.emailAddress && (
-        <p className="text-(--color-Red)">{errors.emailAddress}</p>
+        <p className="text-(--color-Red)" id="email-error">
+          {errors.emailAddress}
+        </p>
       )}
 
       {/* Query Type */}
-      <div className="flex flex-col gap-4">
+      <div
+        className="flex flex-col gap-4"
+        role="radiogroup"
+        aria-label="Query Type"
+      >
         <label className="flex flex-row items-start gap-1 text-(--color-Grey900) xl:w-full">
           Query Type
           <Star />
@@ -172,17 +188,22 @@ const Form = ({
               name="query-type"
               value="general-enquiry"
               className="hidden"
+              aria-label="General Enquiry"
               checked={queryType === 'general-enquiry'}
               onChange={(e) =>
                 setQueryType(
                   e.target.value as '' | 'general-enquiry' | 'support-request',
                 )
               }
+              aria-describedby="query-type-error"
             />
             <label
               htmlFor="general-enquiry"
               data-value="general-enquiry"
               tabIndex={1}
+              role="radio"
+              aria-checked={queryType === 'general-enquiry'}
+              aria-label="General Enquiry"
               className="flex items-center gap-3 hover:cursor-pointer text-[var(--color-Grey900)] px-5 py-3 focus:outline-[var(--color-Green600)]"
               onKeyDown={(e) => {
                 if (e.key === ' ') {
@@ -214,18 +235,24 @@ const Form = ({
               name="query-type"
               value="support-request"
               className="hidden"
+              aria-hidden="true"
+              aria-label="Support Request"
               checked={queryType === 'support-request'}
               onChange={(e) =>
                 setQueryType(
                   e.target.value as '' | 'general-enquiry' | 'support-request',
                 )
               }
+              aria-describedby="query-type-error"
             />
             <label
               htmlFor="support-request"
               className="flex items-center gap-3 hover:cursor-pointer text-(--color-Grey900) 
                          px-5 py-3 focus:outline-(--color-Green600)"
               tabIndex={1}
+              role="radio"
+              aria-checked={queryType === 'support-request'}
+              aria-label="Support Request"
               onKeyDown={(e) => {
                 if (e.key === ' ') {
                   e.preventDefault();
@@ -250,7 +277,9 @@ const Form = ({
         </div>
       </div>
       {submitted && errors.queryType && (
-        <p className="text-(--color-Red)">{errors.queryType}</p>
+        <p className="text-(--color-Red)" id="query-type-error">
+          {errors.queryType}
+        </p>
       )}
 
       {/* Message */}
@@ -271,10 +300,14 @@ const Form = ({
           tabIndex={1}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          aria-describedby="message-error"
+          aria-required="true"
         ></textarea>
       </div>
       {submitted && errors.message && (
-        <p className="text-(--color-Red)">{errors.message}</p>
+        <p className="text-(--color-Red)" id="message-error">
+          {errors.message}
+        </p>
       )}
 
       {/* Term */}
@@ -286,8 +319,11 @@ const Form = ({
           type="checkbox"
           id="term"
           className="hidden"
+          aria-hidden="true"
           checked={term}
           onChange={(e) => setTerm(e.target.checked)}
+          aria-describedby="term-error"
+          aria-required="true"
         />
 
         <label
@@ -305,6 +341,9 @@ const Form = ({
                 setTerm(!term);
               }
             }}
+            role="checkbox"
+            aria-checked={term}
+            aria-labelledby="term-label"
           >
             <img
               src={checkBoxIcon}
@@ -331,7 +370,9 @@ const Form = ({
         </label>
       </div>
       {submitted && errors.term && (
-        <p className="text-(--color-Red)">{errors.term}</p>
+        <p className="text-(--color-Red)" id="term-error">
+          {errors.term}
+        </p>
       )}
 
       <button

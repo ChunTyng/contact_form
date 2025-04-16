@@ -7,6 +7,9 @@ type SuccessModalProps = {
 const SuccessModal: React.FC<SuccessModalProps> = ({ isVisible }) => {
   return (
     <div
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
       className={`absolute top-5 right-[50%] translate-x-[50%] z-50 transition-all duration-300 ease-out
           ${
             isVisible
