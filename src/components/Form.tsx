@@ -34,21 +34,26 @@ type FormProps = {
     message: string;
     term: string;
   };
-  setErrors: Dispatch<
-    SetStateAction<{
-      firstName: string;
-      lastName: string;
-      emailAddress: string;
-      queryType: string;
-      message: string;
-      term: string;
-    }>
-  >;
+  // setErrors: Dispatch<
+  //   SetStateAction<{
+  //     firstName: string;
+  //     lastName: string;
+  //     emailAddress: string;
+  //     queryType: string;
+  //     message: string;
+  //     term: string;
+  //   }>
+  // >;
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
 };
 
 const Form = ({
   firstName,
+  lastName,
+  emailAddress,
+  queryType,
+  message,
+  term,
   setFirstName,
   setLastName,
   setEmailAddress,
@@ -57,6 +62,7 @@ const Form = ({
   setTerm,
   submitted,
   errors,
+  // setErrors,
   handleSubmit,
 }: FormProps) => {
   return (
@@ -102,6 +108,7 @@ const Form = ({
                      focus:outline-(--color-Green600) w-full pt-3 pb-1 px-2 xl:pt-4"
             id="last-name"
             tabIndex={1}
+            value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
           {submitted && errors.lastName && (
@@ -126,6 +133,7 @@ const Form = ({
                    focus:outline-(--color-Green600) w-full pt-3 pb-1 px-2 xl:pt-4"
           id="email-address"
           tabIndex={1}
+          value={emailAddress}
           onChange={(e) => setEmailAddress(e.target.value)}
         />
       </div>
@@ -153,6 +161,7 @@ const Form = ({
               name="query-type"
               value="general-enquiry"
               className="hidden"
+              checked={queryType === 'general-enquiry'}
               onChange={(e) =>
                 setQueryType(
                   e.target.value as '' | 'general-enquiry' | 'support-request',
@@ -188,6 +197,7 @@ const Form = ({
               name="query-type"
               value="support-request"
               className="hidden"
+              checked={queryType === 'support-request'}
               onChange={(e) =>
                 setQueryType(
                   e.target.value as '' | 'general-enquiry' | 'support-request',
@@ -236,6 +246,7 @@ const Form = ({
                      focus:outline-1 focus:outline-(--color-Green600) p-2
                      "
           tabIndex={1}
+          value={message}
           onChange={(e) => setMessage(e.target.value)}
         ></textarea>
       </div>
@@ -252,6 +263,7 @@ const Form = ({
           type="checkbox"
           id="term"
           className="hidden"
+          checked={term}
           onChange={(e) => setTerm(e.target.checked)}
         />
 

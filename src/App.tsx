@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 
 import Header from './components/Header';
 import Form from './components/Form';
@@ -37,20 +37,23 @@ function App() {
     term: '',
   });
 
-  let emailError = '';
-  if (!emailAddress) {
-    emailError = 'Email is required';
-  } else if (!emailAddress.includes('@')) {
-    emailError = 'Email must contain "@"';
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress)) {
-    emailError = 'Please enter a valid email address';
-  }
+  const emailError: string = !emailAddress
+    ? 'Email is required'
+    : !emailAddress.includes('@')
+    ? "Email must contain '@'"
+    : !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(emailAddress)
+    ? 'Please enter a valid email address'
+    : '';
+
+  // SuccessModal usestate
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [renderModal, setRenderModal] = useState<boolean>(false);
 
   // function
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setSubmitted(true);
-    const newErrors = {
+    const newErrors: Errors = {
       firstName: firstName.trim() ? '' : 'This field is required',
       lastName: lastName.trim() ? '' : 'This field is required',
       emailAddress: emailError,
@@ -62,8 +65,35 @@ function App() {
     };
     setErrors(newErrors);
   };
+
+  const resetForm = (): void => {
+    setFirstName('');
+    setLastName('');
+    setEmailAddress('');
+    setQueryType('');
+    setMessage('');
+    setTerm(false);
+    setSubmitted(false);
+  };
+
   const isSuccess =
     submitted && Object.values(errors).every((err) => err === '');
+
+  useEffect(() => {
+    if (isSuccess) {
+      setRenderModal(true);
+      setTimeout(() => setShowModal(true), 10);
+      const timer = setTimeout(() => {
+        setShowModal(false);
+        setTimeout(() => {
+          setRenderModal(false);
+          resetForm();
+        }, 300);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -90,15 +120,11 @@ function App() {
             submitted={submitted}
             setSubmitted={setSubmitted}
             errors={errors}
-            setErrors={setErrors}
+            // setErrors={setErrors}
             handleSubmit={handleSubmit}
           />
 
-          {/* alert */}
-          <SuccessModal
-            isOpen={isSuccess}
-            onClose={() => setSubmitted(false)}
-          />
+          {renderModal && <SuccessModal isVisible={showModal} />}
         </div>
       </div>
     </>
