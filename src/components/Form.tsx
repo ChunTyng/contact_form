@@ -66,7 +66,18 @@ const Form = ({
   handleSubmit,
 }: FormProps) => {
   return (
-    <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-col gap-5"
+      onKeyDown={(e) => {
+        if (
+          e.key === 'Enter' &&
+          (e.target as HTMLElement).tagName !== 'TEXTAREA'
+        ) {
+          handleSubmit(e);
+        }
+      }}
+      onSubmit={handleSubmit}
+    >
       <div className="xl:flex xl:flex-row xl:gap-5">
         {/* First Name */}
         <div className="inline-flex flex-col gap-2 w-full xl:w-1/2 ">
@@ -173,6 +184,12 @@ const Form = ({
               data-value="general-enquiry"
               tabIndex={1}
               className="flex items-center gap-3 hover:cursor-pointer text-[var(--color-Grey900)] px-5 py-3 focus:outline-[var(--color-Green600)]"
+              onKeyDown={(e) => {
+                if (e.key === ' ') {
+                  e.preventDefault();
+                  setQueryType('general-enquiry');
+                }
+              }}
             >
               <div className="img-wrapper border-1 border-[var(--color-Grey500)] rounded-full inline-block w-[18px] h-[18px] duration-300 ease-in-out hover:cursor-pointer">
                 <img
@@ -209,6 +226,12 @@ const Form = ({
               className="flex items-center gap-3 hover:cursor-pointer text-(--color-Grey900) 
                          px-5 py-3 focus:outline-(--color-Green600)"
               tabIndex={1}
+              onKeyDown={(e) => {
+                if (e.key === ' ') {
+                  e.preventDefault();
+                  setQueryType('support-request');
+                }
+              }}
             >
               <div
                 className="img-wrapper border-1 border-(--color-Grey500) rounded-full 
@@ -256,7 +279,7 @@ const Form = ({
 
       {/* Term */}
       <div
-        className="flex flex-row justify-center items-center gap-5
+        className="flex flex-row items-center gap-5
                    relative text-(--color-Grey900) sm:justify-start xl:my-4"
       >
         <input
@@ -276,6 +299,12 @@ const Form = ({
                        inline-block relative shadow-[inset_0_0_1px_0_var(-color-Green200)]
                        focus:outline-(--color-Green600)"
             tabIndex={1}
+            onKeyDown={(e) => {
+              if (e.key === ' ') {
+                e.preventDefault();
+                setTerm(!term);
+              }
+            }}
           >
             <img
               src={checkBoxIcon}

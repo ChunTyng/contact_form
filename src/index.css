@@ -34,11 +34,6 @@ html {
 }
 
 /* input radio style */
-input[type='radio']:checked + label .img-wrapper img {
-  opacity: 1;
-  filter: none;
-}
-
 input[type='radio']:checked + label .img-wrapper {
   border: transparent 1px solid;
 }
