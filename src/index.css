@@ -12,7 +12,14 @@
   font-weight: 100 900;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html {
+  font-size: 16px;
   font-family: 'Karla Variable Font', sans-serif;
 }
 
@@ -24,4 +31,31 @@ html {
   --color-Grey900: hsl(187, 24%, 22%);
   --color-White: hsl(0, 0%, 100%);
   --color-Red: hsl(0, 66%, 54%);
+}
+
+/* input radio style */
+input[type='radio']:checked + label .img-wrapper img {
+  opacity: 1;
+  filter: none;
+}
+
+input[type='radio']:checked + label .img-wrapper {
+  border: transparent 1px solid;
+}
+
+input[type='radio']:checked + label .img-wrapper img {
+  opacity: 1;
+  filter: none;
+}
+
+/* input checkbox style */
+input[type='checkbox']:checked + label .box {
+  border: none;
+  outline: none;
+}
+
+input[type='checkbox']:checked + label .box img {
+  opacity: 1;
+  min-width: calc(100% + 1px);
+  min-height: calc(100% + 1px);
 }
